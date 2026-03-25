@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-let mongoose = require('mongoose')
+let mongoose = require('mongoose');
+require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -27,9 +28,10 @@ app.use('/api/v1/roles', require('./routes/roles'));
 app.use('/api/v1/products', require('./routes/products'))
 app.use('/api/v1/categories', require('./routes/categories'))
 app.use('/api/v1/auth', require('./routes/auth'))
+app.use('/api/v1/inventories', require('./routes/inventories'))
 
 
-mongoose.connect('mongodb://localhost:27017/NNPTUD-C4');
+mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('connected', function () {
   console.log("connected");
 })

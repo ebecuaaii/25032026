@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const slugify = require('slugify');
-let productModel = require('../schemas/products')
+let productModel = require('../schemas/products');
+let inventoryModel = require('../schemas/inventories');
 
 /* GET users listing. */
 router.get('/', async function (req, res, next) {
@@ -57,6 +58,11 @@ router.post('/', async function (req, res, next) {
     category: req.body.category
   })
   await newProduct.save();
+
+  // Tự động tạo inventory tương ứng
+  let newInventory = new inventoryModel({ product: newProduct._id });
+  await newInventory.save();
+
   res.send(newProduct)
 })
 router.put('/:id', async function (req, res, next) {
